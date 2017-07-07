@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-s.name = 'ScrollRuler'
+s.name = 'TTScrollRuler'
 s.version = '1.1.3'
 s.license = 'MIT'
 s.summary = 'An custome scoller ruler.'
