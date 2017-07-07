@@ -121,3 +121,9 @@ rulerView.pointerBackgroundColor = [UIColor blueColor];
 [rulerView classicRuler];
 </code></pre>
 
+### 导入方法
+<code>
+pod 'TTScrollRuler'
+</code>
+
+<p>#import <TTScrollRulerView.h> 即可使用</p>
