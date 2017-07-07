@@ -345,6 +345,11 @@
     _pointerView.backgroundColor = _pointerBackgroundColor;
 }
 
+- (void)setPointerImage:(UIImage *)pointerImage {
+    _pointerImage = pointerImage;
+    _pointerView.image = _pointerImage;
+}
+
 
 
 @end
