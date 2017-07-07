@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'scrollRuler'
-s.version = '1.1.0'
+s.version = '1.1.2'
 s.license = 'MIT'
 s.summary = 'An custome scoller ruler.'
 s.homepage = 'https://github.com/clarkIsMe/scrollRulerView'

@@ -2,9 +2,8 @@
 //  TTScrollRulerView.h
 //  标尺
 //
-//  Created by 天天理财 on 16/12/27.
-//  Copyright © 2016年 天天理财. All rights reserved.
-//  马春雨 qq：943051580
+//  Created by 标尺 on 16/12/27.
+//  Copyright © 2016年 标尺. All rights reserved.
 
 #import <UIKit/UIKit.h>
 #import "RullerView.h"
@@ -161,6 +160,15 @@
  如需生成标尺后，修改标尺参数，此处提供重绘方法
  */
 - (void)reDrawerRuler;
+
+
+/**
+ 滚动到某个位置
+
+ @param value 刻度尺上的某个数值，默认滚动到顶部
+ @param flag 是否有动画，默认无
+ */
+- (void)scrollToValue:(NSInteger)value animation:(BOOL)flag;
 
 
 

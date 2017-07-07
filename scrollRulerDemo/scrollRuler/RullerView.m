@@ -2,8 +2,8 @@
 //  RullerView.m
 //  标尺
 //
-//  Created by 天天理财 on 16/12/27.
-//  Copyright © 2016年 天天理财. All rights reserved.
+//  Created by 标尺 on 16/12/27.
+//  Copyright © 2016年 标尺. All rights reserved.
 //
 
 #import "RullerView.h"
@@ -35,10 +35,10 @@
 }
 
 - (void)start {
-    self.backgroundColor = _rulerBackgroundColor;
-    _unitPX = fit(14);
-    _coarseness = fit(1);
-    _num_height = fit(24);
+    self.backgroundColor = _rulerBackgroundColor?_rulerBackgroundColor:[UIColor whiteColor];
+    _unitPX = cy_fit(14);
+    _coarseness = cy_fit(1);
+    _num_height = cy_fit(24);
     _txtColor = UIColorFromRGB(0xDDDDDD);
     _lineColor = customColorMake(221, 221, 221);
     
@@ -46,17 +46,17 @@
         
         if (_rulerFace == RulerFace_up_left) {
             
-            _mark_bottom = selfHeight/2.0;
+            _mark_bottom = cy_selfHeight/2.0;
             _short_mark_top = _mark_bottom-_m_height;
             _long_mark_top = _mark_bottom-_h_height;
-            _num_top = _long_mark_top-_num_height-fit(10);
+            _num_top = _long_mark_top-_num_height-cy_fit(10);
             
         }else if (_rulerFace == RulerFace_down_right) {
             
-            _mark_bottom = selfHeight/2.0;
+            _mark_bottom = cy_selfHeight/2.0;
             _short_mark_top = _mark_bottom+_m_height;
             _long_mark_top = _mark_bottom+_h_height;
-            _num_top = _long_mark_top+_num_height-fit(10);
+            _num_top = _long_mark_top+_num_height-cy_fit(10);
             
         }else {
             NSAssert(NO, @"error");
@@ -66,17 +66,17 @@
         
         if (_rulerFace == RulerFace_up_left) {
             
-            _mark_bottom = selfWidth/2.0;
+            _mark_bottom = cy_selfWidth/2.0;
             _short_mark_top = _mark_bottom-_m_height;
             _long_mark_top = _mark_bottom-_h_height;
-            _num_top = _long_mark_top-_unitPX*8+fit(10);
+            _num_top = _long_mark_top-_unitPX*8+cy_fit(10);
             
         }else if (_rulerFace == RulerFace_down_right) {
             
-            _mark_bottom = selfWidth/2.0;
+            _mark_bottom = cy_selfWidth/2.0;
             _short_mark_top = _mark_bottom+_m_height;
             _long_mark_top = _mark_bottom+_h_height;
-            _num_top = _long_mark_top-fit(10);
+            _num_top = _long_mark_top-cy_fit(10);
             
         }else {
             NSAssert(NO, @"error");
@@ -107,12 +107,12 @@
     if (_rulerDirection == RulerDirectionHorizontal) {
         
         aPoints[0] =CGPointMake(0, _mark_bottom);//起始点
-        aPoints[1] =CGPointMake(selfWidth, _mark_bottom);//终点
+        aPoints[1] =CGPointMake(cy_selfWidth, _mark_bottom);//终点
         
     }else if (_rulerDirection == RulerDirectionVertical) {
         
         aPoints[0] =CGPointMake(_mark_bottom, 0);//起始点
-        aPoints[1] =CGPointMake(_mark_bottom, selfHeight);//终点
+        aPoints[1] =CGPointMake(_mark_bottom, cy_selfHeight);//终点
         
     }else {
         NSAssert(NO, @"error");
@@ -132,8 +132,8 @@
             
         }else if (_rulerDirection == RulerDirectionVertical) {
             
-            aPoints[0] =CGPointMake(i%10==0?_long_mark_top:_short_mark_top,_pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*(i+2));//起始点
-            aPoints[1] =CGPointMake(_mark_bottom,_pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*(i+2));//终点
+            aPoints[0] =CGPointMake(i%10==0?_long_mark_top:_short_mark_top,_pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*i);//起始点
+            aPoints[1] =CGPointMake(_mark_bottom,_pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*i);//终点
             
         }else {
             NSAssert(NO, @"error");

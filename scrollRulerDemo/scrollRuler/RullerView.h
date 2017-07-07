@@ -2,9 +2,8 @@
 //  RullerView.h
 //  标尺
 //
-//  Created by 天天理财 on 16/12/27.
-//  Copyright © 2016年 天天理财. All rights reserved.
-//  马春雨 qq：943051580
+//  Created by 标尺 on 16/12/27.
+//  Copyright © 2016年 标尺. All rights reserved.
 
 #import <UIKit/UIKit.h>
 
@@ -109,17 +108,17 @@ typedef void(^Handler)(void);
 
 #pragma 自定义的宏
 //屏幕尺寸
-#define ScreenW [UIScreen mainScreen].bounds.size.width
-#define ScreenH [UIScreen mainScreen].bounds.size.height
+#define cy_ScreenW [UIScreen mainScreen].bounds.size.width
+#define cy_ScreenH [UIScreen mainScreen].bounds.size.height
 
 //视图尺寸
-#define selfWidth self.bounds.size.width
-#define selfHeight self.bounds.size.height
+#define cy_selfWidth self.bounds.size.width
+#define cy_selfHeight self.bounds.size.height
 
 //px宏除2
-#define px(value) (value)/2.0
+#define cy_px(value) (value)/2.0
 //按宽度适配
-#define fit(value) (px(value))*ScreenW/375.0
+#define cy_fit(value) (cy_px(value))*cy_ScreenW/375.0
 
 // RGB颜色转换（16进制->10进制）
 #define UIColorFromRGB(rgbValue)\

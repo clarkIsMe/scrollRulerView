@@ -2,8 +2,8 @@
 //  TTScrollRulerView.m
 //  标尺
 //
-//  Created by 天天理财 on 16/12/27.
-//  Copyright © 2016年 天天理财. All rights reserved.
+//  Created by 标尺 on 16/12/27.
+//  Copyright © 2016年 标尺. All rights reserved.
 //
 
 #import "TTScrollRulerView.h"
@@ -60,23 +60,24 @@
 
 - (void)initialization {
     //初始化内置参数
-    _unitPX = fit(14);
+    _unitPX = cy_fit(14);
     
     //初始化外部默认参数
     _unitValue = 1;
     _lockMin = 0;
     _lockMax = 360;
-    _lockDefault = 10;
-    _rulerWidth = ScreenW;
-    _rulerHeight = fit(150);
+    _lockDefault = _lockMin;
+    _rulerWidth = cy_ScreenW;
+    _rulerHeight = cy_fit(150);
     _rulerDirection = RulerDirectionHorizontal;
     _rulerFace = RulerFace_up_left;
     _rulerBackgroundColor = UIColorFromRGB(0xffffff);
     _isShowRulerValue = YES;
-    _h_height = fit(24);
-    _m_height = fit(12);
+    _h_height = cy_fit(24);
+    _m_height = cy_fit(12);
     _pointerBackgroundColor = UIColorFromRGB(0xfe2326);
-    _pointerFrame = CGRectMake(selfWidth/2.0-fit(1)/2.0, selfHeight/2.0-(selfHeight>=fit(120)?fit(60):selfHeight/2.0), fit(1), selfHeight>=fit(120)?fit(60):selfHeight/2.0);
+    _pointerFrame = CGRectMake(cy_selfWidth/2.0-cy_fit(1)/2.0, cy_selfHeight/2.0-(cy_selfHeight>=cy_fit(120)?cy_fit(60):cy_selfHeight/2.0), cy_fit(1), cy_selfHeight>=cy_fit(120)?cy_fit(60):cy_selfHeight/2.0);
+    _pointerFrameSeted = NO;
 }
 
 - (void)addView {
@@ -97,13 +98,13 @@
 
 - (BOOL)paramIsAvialiable {
     BOOL flag = YES;
-    if (_lockMax <= _lockMin) {
+    if (_lockMax < _lockMin) {
         NSAssert(NO, @"最小值应该比最大值小");
         flag = NO;
     }
     if (_lockDefault < _lockMin || _lockDefault > _lockMax) {
-        NSAssert(NO, @"默认值应该比最小值大，比最大值小");
-        flag = NO;
+        NSLog(@"标尺默认值不合法，已被修改为最小值了");
+        _lockDefault = _lockMin;
     }
     if (_lockMin%10 != 0 || _lockMax%10 != 0 || _lockDefault%10 != 0) {
         NSLog(@"小伙子，我不是太推荐你设置的这种参数~,但是随你……");
@@ -134,25 +135,38 @@
     [_rulerView setNeedsDisplay];
 }
 
+- (void)scrollToValue:(NSInteger)value animation:(BOOL)flag {
+    if (value < _lockMin || value > _lockMax) {
+        NSAssert(NO, @"scrollToValue:(NSInteger)value animation:(BOOL)flag, value 必须在标尺范围内");
+        return;
+    }
+    if (_rulerDirection == RulerDirectionHorizontal) {
+        
+        [_rulerBackgroundView setContentOffset:CGPointMake(value/_unitValue*_unitPX, 0) animated:flag?flag:NO];
+        
+    }else if (_rulerDirection == RulerDirectionVertical) {
+        
+        [_rulerBackgroundView setContentOffset:CGPointMake(0, value/_unitValue*_unitPX) animated:flag?flag:NO];
+        
+    }else {
+        NSAssert(NO, @"error");
+    }
+}
+
 - (void)rulerInit {
     if (![self paramIsAvialiable]) {
         return;
     }
     
-//    if (_rulerView) {
-//        [_rulerView removeFromSuperview];
-//        _rulerView = nil;
-//    }
-    
     if (_rulerDirection == RulerDirectionHorizontal) {
         
-        _rulerBackgroundView.contentSize = CGSizeMake(_unitPX*_lockMax/_unitValue + selfWidth, 0);
+        _rulerBackgroundView.contentSize = CGSizeMake(_unitPX*_lockMax/_unitValue + cy_selfWidth, 0);
         _rulerBackgroundView.contentOffset = CGPointMake(_unitPX*_lockDefault/_unitValue, 0);
         if (!_rulerView) {
-            _rulerView = [[RullerView alloc] initWithFrame:CGRectMake(0, 0, _rulerBackgroundView.contentSize.width, selfHeight)];
+            _rulerView = [[RullerView alloc] initWithFrame:CGRectMake(0, 0, _rulerBackgroundView.contentSize.width, cy_selfHeight)];
             [_rulerBackgroundView addSubview:_rulerView];
         }else {
-            _rulerView.frame = CGRectMake(0, 0, _rulerBackgroundView.contentSize.width, selfHeight);
+            _rulerView.frame = CGRectMake(0, 0, _rulerBackgroundView.contentSize.width, cy_selfHeight);
         }
         
         if (!_pointerFrameSeted && _rulerFace == RulerFace_down_right) {
@@ -161,25 +175,21 @@
         
     }else if (_rulerDirection == RulerDirectionVertical) {
         
-        _rulerBackgroundView.contentSize = CGSizeMake(0, _unitPX*_lockMax/_unitValue + selfHeight);
+        _rulerBackgroundView.contentSize = CGSizeMake(0, _unitPX*_lockMax/_unitValue + cy_selfHeight);
         _rulerBackgroundView.contentOffset = CGPointMake(0, _unitPX*_lockDefault/_unitValue);
         if (!_rulerView) {
-            _rulerView = [[RullerView alloc] initWithFrame:CGRectMake(0, 0, selfWidth, _rulerBackgroundView.contentSize.height)];
+            _rulerView = [[RullerView alloc] initWithFrame:CGRectMake(0, 0, cy_selfWidth, _rulerBackgroundView.contentSize.height)];
             [_rulerBackgroundView addSubview:_rulerView];
         }else {
-            _rulerView.frame = CGRectMake(0, 0, selfWidth, _rulerBackgroundView.contentSize.height);
+            _rulerView.frame = CGRectMake(0, 0, cy_selfWidth, _rulerBackgroundView.contentSize.height);
         }
         
         if (!_pointerFrameSeted && _rulerFace == RulerFace_up_left) {
-//            _pointerView.transform = CGAffineTransformTranslate(_pointerView.transform,-_pointerFrame.size.height/2.0, _pointerFrame.size.height/2.0);
-//            _pointerView.transform = CGAffineTransformRotate(_pointerView.transform, 3.1415927/2.0);
-            _pointerView.frame = CGRectMake(selfWidth/2.0-(selfHeight>=fit(120)?fit(80):selfHeight/2.0), selfHeight/2.0-fit(1)/2.0, selfHeight>=fit(120)?fit(80):selfHeight/2.0, fit(1));
+            _pointerView.frame = CGRectMake(cy_selfWidth/2.0-(cy_selfHeight>=cy_fit(120)?cy_fit(80):cy_selfHeight/2.0), cy_selfHeight/2.0-cy_fit(1)/2.0, cy_selfWidth>=cy_fit(120)?cy_fit(80):cy_selfWidth/2.0, cy_fit(1));
             
         }
         if (!_pointerFrameSeted && _rulerFace == RulerFace_down_right) {
-//            _pointerView.transform = CGAffineTransformTranslate(_pointerView.transform,_pointerFrame.size.height/2.0, _pointerFrame.size.height/2.0);
-//            _pointerView.transform = CGAffineTransformRotate(_pointerView.transform, 3.1415927/2.0);
-            _pointerView.frame = CGRectMake(selfWidth/2.0, selfHeight/2.0-fit(1)/2.0, selfHeight>=fit(120)?fit(80):selfHeight/2.0, fit(1));
+            _pointerView.frame = CGRectMake(cy_selfWidth/2.0, cy_selfHeight/2.0-cy_fit(1)/2.0, cy_selfWidth>=cy_fit(120)?cy_fit(80):cy_selfWidth/2.0, cy_fit(1));
         }
         
     }else {
@@ -194,7 +204,7 @@
     _rulerView.rulerDirection = _rulerDirection;
     _rulerView.rulerFace = _rulerFace;
     _rulerView.isShowRulerValue = _isShowRulerValue;
-    _rulerView.pointerFrame = _pointerFrame;
+    _rulerView.pointerFrame = _pointerView.frame;
     _rulerView.rulerBackgroundColor = _rulerBackgroundColor;
 }
 
@@ -326,7 +336,13 @@
 
 - (void)setPointerFrame:(CGRect)pointerFrame {
     _pointerFrame = pointerFrame;
+    _pointerView.frame = _pointerFrame;
     _pointerFrameSeted = YES;
+}
+
+- (void)setPointerBackgroundColor:(UIColor *)pointerBackgroundColor {
+    _pointerBackgroundColor = pointerBackgroundColor;
+    _pointerView.backgroundColor = _pointerBackgroundColor;
 }
 
 
