@@ -109,7 +109,7 @@ rulerView.unitValue = 100;
 //默认值
 rulerView.lockDefault = 2000;
 //不显示刻度数值
-rulerView.isShowRulerValue = YES;
+rulerView.isShowRulerValue = NO;
 //背景颜色
 rulerView.rulerBackgroundColor = [UIColor whiteColor];
 //自定义指针位置
