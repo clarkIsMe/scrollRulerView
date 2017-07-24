@@ -29,7 +29,7 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-    
+        
     }
     return self;
 }
@@ -154,7 +154,7 @@
                 
             }else if (_rulerDirection == RulerDirectionVertical) {
                 
-                [@(i*_unitValue).stringValue drawInRect:CGRectMake(_num_top, _pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*(i+1), _unitPX*8, _num_height) withAttributes:attributes];
+                [@(i*_unitValue).stringValue drawInRect:CGRectMake(_num_top, _pointerFrame.origin.y+_pointerFrame.size.height/2.0+_unitPX*(i-1), _unitPX*8, _num_height) withAttributes:attributes];
                 
             }else {
                 NSAssert(NO, @"error");
