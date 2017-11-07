@@ -5,7 +5,7 @@
 
 ### 效果图参考，更多自定义请下载demo查看
 
-<img src="https://github.com/clarkIsMe/image/blob/master/biaochi.png" width = "187" height = "333" alt="图片名称" align=center />
+<img src="https://github.com/clarkIsMe/image/blob/master/biaochi.png" width = "375" height = "667" alt="图片名称" align=center />
 
 ##### 经典标尺 样式
 <pre><code>
